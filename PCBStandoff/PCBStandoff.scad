@@ -5,6 +5,7 @@ $fn=100;
 hole_diameter=3;
 tape_width=15;
 standoff_height=8;
+board_thickness=2;
 
 base_thickness=2;
 post_length=standoff_height-base_thickness;
@@ -33,8 +34,40 @@ module post(diameter, length) {
    TODO: form a clip by splitting the pin, and giving it a bulge
 */
 module pin(diameter, length) {
-    linear_extrude(height=length)
-        circle(d=diameter);
+    /* Make the first part of the pin an exact fit */
+    linear_extrude(height=board_thickness) {
+        difference() {
+            circle(d=diameter);
+            square([0.5, diameter], center=true);
+        }
+    }
+    /* TODO: Make the next part with a small bulge... */
+    translate([0,0,board_thickness]) {
+        linear_extrude(height=length-board_thickness) {
+            difference() {
+                circle(d=diameter);
+                square([0.5, diameter], center=true);
+            }
+        }
+    }
+    /* Musings...
+    translate([0,0,board_thickness]) {
+        hull() {
+            linear_extrude(height=length-board_thickness) {
+                difference() {
+                    circle(d=diameter);
+                    square([0.5, diameter], center=true);
+                }
+            }
+            translate([0,0,board_thickness/2])
+            linear_extrude(height=0.1)
+                difference() {
+                    circle(d=diameter+0.5);
+                    square([0.5, diameter+0.5], center=true);
+                }
+        }
+    }
+    */
 }
 
 /* The completed standoff */

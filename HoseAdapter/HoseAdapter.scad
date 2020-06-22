@@ -6,8 +6,8 @@ $fn=100;
 
 hose_id=39;
 vacuum_od=35;
-length=15;
-collar_od=(hose_id+5);
+length=30;
+collar_od=(hose_id+7);
 collar_height=3;
 
 

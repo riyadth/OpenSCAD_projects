@@ -46,3 +46,5 @@ translate([62,-31,0]) cube([25,3,20]);  // Upright
 translate([-(50+25+12),-28,0]) cube([25,28,5]);
 translate([-(50+25+12),-31,0]) cube([25,3,20]); // Upright
 
+
+// linear_extrude(height=25) polygon([[0,0],[0,30],[25,30],[25,28],[8,28],[5,25],[5,0]]);

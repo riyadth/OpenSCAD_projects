@@ -39,4 +39,10 @@ difference() {
     translate([50,0,3]) cube([12,5,10]);
 }
 
+// Add clips to hang from
+translate([62,-28,0]) cube([25,28,5]);
+translate([62,-31,0]) cube([25,3,20]);  // Upright
+
+translate([-(50+25+12),-28,0]) cube([25,28,5]);
+translate([-(50+25+12),-31,0]) cube([25,3,20]); // Upright
 

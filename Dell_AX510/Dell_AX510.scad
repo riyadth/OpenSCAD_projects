@@ -10,6 +10,10 @@ $fn=100;
 
 rounding_d=4;
 
+// Hidden with a *
+// Transparent with a %
+// Highlight/debug with a #
+// Show only with a !
 difference() {
     union() {
         // The "backplane" of the sliding connector
@@ -30,21 +34,27 @@ difference() {
         // Add 'boxes' for clips, to be hollowed out below
         translate([-62,0,2]) cube([14,5+2.3,13]);
         translate([50,0,2]) cube([14,5+2.3,13]);
+translate([62,0,0]) rotate([0, 90,0]) linear_extrude(height=25) polygon([[0,2.3],[0,-26],[-20,-26],[-20,-24],[-4,-24],[-4,-16],[-20,0],[-30,0],[-30,2.3]]);
+translate([-(50+25+12),0,0]) rotate([0, 90,0]) linear_extrude(height=25) polygon([[0,2.3],[0,-26],[-20,-26],[-20,-24],[-4,-24],[-4,-16],[-20,0],[-30,0],[-30,2.3]]);
     }
 
     // Remove a window for the latch
-    translate([-83,0,5]) cube([6,2.3,10]);
+    translate([-83,0,5]) cube([6,3,10]);
     // Hollow out the boxes for the clips
     translate([-62,0,3]) cube([12,5,10]);
     translate([50,0,3]) cube([12,5,10]);
 }
 
 // Add clips to hang from
-translate([62,-28,0]) cube([25,28,5]);
-translate([62,-31,0]) cube([25,3,20]);  // Upright
-
-translate([-(50+25+12),-28,0]) cube([25,28,5]);
-translate([-(50+25+12),-31,0]) cube([25,3,20]); // Upright
+// Original style
+// translate([62,-28,0]) cube([25,28,5]);
+// translate([62,-31,0]) cube([25,3,20]);  // Upright
+//
+// translate([-(50+25+12),-28,0]) cube([25,28,5]);
+// translate([-(50+25+12),-31,0]) cube([25,3,20]); // Upright
 
 
 // linear_extrude(height=25) polygon([[0,0],[0,30],[25,30],[25,28],[8,28],[5,25],[5,0]]);
+
+// translate([62,0,0]) rotate([0, 90,0]) linear_extrude(height=25) polygon([[0,2.3],[0,-26],[-20,-26],[-20,-24],[-4,-24],[-4,-16],[-20,0],[-30,0],[-30,2.3]]);
+// translate([-(50+25+12),0,0]) rotate([0, 90,0]) linear_extrude(height=25) polygon([[0,2.3],[0,-26],[-20,-26],[-20,-24],[-4,-24],[-4,-16],[-20,0],[-30,0],[-30,2.3]]);

@@ -103,7 +103,9 @@ module bracket() {
 // translate([-(50+25+12),-28,0]) cube([25,28,5]);
 // translate([-(50+25+12),-31,0]) cube([25,3,20]); // Upright
 
-intersection() {
-    bracket();
-    translate([-95,-35,-10]) cube([50,50,50]);
-}
+// intersection() {
+    // bracket();
+    // translate([-95,-35,-10]) cube([50,50,50]);
+// }
+
+bracket();

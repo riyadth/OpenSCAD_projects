@@ -21,8 +21,35 @@ module clip(width) {
     rotate([0, 90,0]) linear_extrude(height=width) {
         // Trace the outline of the clip we want for the TV
         // This is for a Vizio M220MV TV
-        polygon([[0,2.3],[0,-26],[-20,-26],[-20,-24],[-4,-24],
-                [-4,-16],[-20,0],[-30,0],[-30,2.3]]);
+        polygon([[0,2.3],[0,-23],/* bevel */[-20,-23],[-20,-20],[-4,-20],
+                [-4,-13],[-20,0],[-30,0],[-30,2.3]]);
+    }
+}
+
+module box_outside() {
+    // cube([14,5+2.3,13]);
+
+    hull() {
+        cube([14,1,13]);
+        translate([0,4+2.3,0.5]) cube([14,1,12]);
+    }
+
+}
+
+module box_hollow() {
+    // cube([14,5+2.3,13]);
+
+    hull() {
+        translate([0,0,1]) cube([12,1,11]);
+        translate([0,2.5+2.3,1.5]) cube([12,1,10]);
+    }
+
+}
+
+module box() {
+    difference() {
+        box_outside();
+        box_hollow();
     }
 }
 
@@ -47,8 +74,8 @@ module bracket() {
             }
 
             // Add 'boxes' for clips, to be hollowed out below
-            translate([-62,0,2]) cube([14,5+2.3,13]);
-            translate([50,0,2]) cube([14,5+2.3,13]);
+            translate([-62,0,2]) box();
+            translate([50,0,2]) box();
 
             // Add the mounting clips, with a 25mm width
             translate([62,0,0]) clip(25);
@@ -58,8 +85,13 @@ module bracket() {
         // Remove a window for the speaker latch
         translate([-83,0,5]) cube([6,3,10]);
         // Hollow out the boxes for the speaker clips
-        translate([-62,0,3]) cube([12,5,10]);
-        translate([50,0,3]) cube([12,5,10]);
+        // translate([-62,0,3]) cube([12,5,10]);
+        // translate([50,0,3]) cube([12,5,10]);
+        // translate([-62,0,3]) box_hollow();
+        // translate([50,0,3]) box_hollow();
+        // Viewing ports for the back of the box clips - temporary
+        translate([-62,0,3]) cube([12,2.3,11]);
+        translate([50,0,3]) cube([12,2.3,11]);
     }
 }
 
@@ -71,7 +103,7 @@ module bracket() {
 // translate([-(50+25+12),-28,0]) cube([25,28,5]);
 // translate([-(50+25+12),-31,0]) cube([25,3,20]); // Upright
 
-// intersection() {
+intersection() {
     bracket();
-    // translate([-95,-35,-10]) cube([50,50,50]);
-// }
+    translate([-95,-35,-10]) cube([50,50,50]);
+}

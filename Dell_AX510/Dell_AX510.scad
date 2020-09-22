@@ -89,9 +89,12 @@ module bracket() {
         // translate([50,0,3]) cube([12,5,10]);
         // translate([-62,0,3]) box_hollow();
         // translate([50,0,3]) box_hollow();
+
         // Viewing ports for the back of the box clips - temporary
-        translate([-62,0,3]) cube([12,2.3,11]);
-        translate([50,0,3]) cube([12,2.3,11]);
+        // TODO: These ports are resulting in an invalid 2-manifold issue
+        // Had to make the cubes slightly thicker to "overlap"?
+        translate([-62,0,3]) cube([12,2.4,11]);
+        translate([50,0,3]) cube([12,2.4,11]);
     }
 }
 

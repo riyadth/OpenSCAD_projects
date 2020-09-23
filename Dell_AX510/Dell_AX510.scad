@@ -15,14 +15,17 @@ rounding_d=4;
 // Highlight/debug with a #
 // Show only with a !
 
-
 /* The clip is the part that hangs the structure from the top of the TV */
 module clip(width) {
     rotate([0, 90,0]) linear_extrude(height=width) {
         // Trace the outline of the clip we want for the TV
         // This is for a Vizio M220MV TV
-        polygon([[0,2.3],[0,-23],/* bevel */[-20,-23],[-20,-20],[-4,-20],
-                [-4,-13],[-20,0],[-30,0],[-30,2.3]]);
+        points = concat( [[0,2.3],[0,-21]],
+            [for(a = [ 270 : 1 : 360]) [(2 * cos(a))-2, (2 * sin(a))-21]],
+            [[-2,-23],[-18,-23]],
+            [for(b = [ 180 : 1 : 270]) [(2 * cos(b))-18, (2 * sin(b))-21]],
+            [[-20,-21],[-20,-20],[-4,-20],[-4,-13],[-20,0],[-30,0],[-30,2.3]]);
+        polygon(points);
     }
 }
 

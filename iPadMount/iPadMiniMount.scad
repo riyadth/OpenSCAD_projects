@@ -21,18 +21,14 @@ SCREW_DIA=2.8;
 
 /* 5 is too thin, 10 is too thick
  * 4mm is used for the mount plate (flange), probably 3 or
- * 4 would be good for strength */
-MOUNT_THICKNESS=FLANGE_RECESS + 3.5;
+ * 4 would be good for strength (4 fits screw best) */
+MOUNT_THICKNESS=FLANGE_RECESS + 4;
 
 /* iPad Mini 4 dimensions */
 IPAD_WIDTH=203.20;
 IPAD_HEIGHT=134.80;
 IPAD_THICKNESS=6.10;
 IPAD_RADIUS=9;
-
-IPAD_WIDTH_PADDED=IPAD_WIDTH + 1.8;
-IPAD_HEIGHT_PADDED=IPAD_HEIGHT + 1.2;
-IPAD_THICKNESS_PADDED=IPAD_THICKNESS + 0.9;
 
 /* A (simple) model of the iPad Mini 4 (not part of model) */
 module ipad(adj=0) {
@@ -74,26 +70,21 @@ module mount(thickness) {
         // Screw holes
         translate([SCREW_SEPARATION/2, 0, 0]) cylinder(d1=SCREW_DIA+0.5, d2=SCREW_DIA+1, h=0.5);
         translate([-SCREW_SEPARATION/2, 0, 0]) cylinder(d1=SCREW_DIA+0.5, d2=SCREW_DIA+1, h=0.5);
-        // TODO: Bevel top...
     }
 
     // Back-side clearance
     translate([0,0,thickness]) cylinder(d=FLANGE_DIA+1, h=1, center=false);
 }
 
-/* The clip/rail that holds the tablet
- * TODO: This takes the longest to render (minkowski)
- * TODO: Address overhang, shorten clip top size */
-module clip(len,dia=3) {
-    difference() {
-        translate([-(len-dia)/2,-dia/2,dia/2]) {
-            minkowski() {
-                cube([len-dia, 3, MOUNT_THICKNESS + IPAD_THICKNESS_PADDED]);
+/* The clip/rail that holds the tablet */
+module clip(length=(IPAD_WIDTH/4),dia=3) {
+    translate([-length/2,-dia,0]) difference() {
+        minkowski() {
+            translate([dia/2,dia/2,dia/2]) cube([length-dia, dia, MOUNT_THICKNESS + IPAD_THICKNESS]);
                 sphere(d=dia);
-            }
         }
-        translate([-(len/2), 0, MOUNT_THICKNESS]) {
-            cube([len, 5, IPAD_THICKNESS_PADDED+0.5]);
+        translate([0, dia, MOUNT_THICKNESS]) {
+            cube([length, dia, IPAD_THICKNESS+0.5]);
         }
     }
 }
@@ -101,37 +92,24 @@ module clip(len,dia=3) {
 /* 2d outline of the basic frame (minus clips, mount point
  * To be linear-extruded to desired thickness, and then add
  * clips and subtract out mount point, etc. */
-module outline() {
-    polygon(points=[[-20,0],
-    [-72,-(IPAD_HEIGHT_PADDED/2)],
-    [-32,-(IPAD_HEIGHT_PADDED/2)],
-    [20,0],
-    [20,(IPAD_HEIGHT_PADDED/2)],
-    [-20,(IPAD_HEIGHT_PADDED/2)]]);
+module outline(w=IPAD_WIDTH, h=IPAD_HEIGHT) {
+    polygon(points=[[-20,0], [-20,h/2], [20,h/2], [20,0],
+    [-((w/8)+10),-h/2], [-((w/8)+50),-h/2], [-20,0], // left
+    [((w/8)+10),-h/2], [((w/8)+50),-h/2], [20,0]]);  // right
+
     // Add a ring around center to provide strength
     circle(d=FLANGE_DIA+25);
 }
 
 /* The mount assembly itself, minus the mounting point (where
  * the hardware attaches to) */
-module y_shape() {
+module y_shape(w=IPAD_WIDTH, h=IPAD_HEIGHT) {
     linear_extrude(height=MOUNT_THICKNESS) {
-        outline();
-        mirror([1,0,0]) outline();
+        outline(w, h);
     }
-    translate([-50, -(IPAD_HEIGHT_PADDED/2), 0]) clip(50,3);
-    translate([50, -(IPAD_HEIGHT_PADDED/2), 0]) clip(50,3);
-    translate([0,(IPAD_HEIGHT_PADDED/2),0]) rotate([0,0,180]) clip(50,3);
-}
-
-/* Clip on the left side to hold iPad in place
- * TODO: fix position of clip, minimize width, ensure flex */
-module left_clip() {
-    translate([-(IPAD_WIDTH_PADDED/2+FLANGE_DIA/2), -10, 0]) {
-        cube([IPAD_WIDTH_PADDED/2, 20, MOUNT_THICKNESS/2]);
-        cube([30,20,MOUNT_THICKNESS]);
-        cube([5,20,MOUNT_THICKNESS+IPAD_THICKNESS_PADDED/2]);
-    }
+    translate([-((w/4)+3), -((h/2) + 0.5), 0]) clip((w/4),3);
+    translate([((w/4)+3), -((h/2) + 0.5), 0]) clip((w/4),3);
+    translate([0,((h/2) + 0.5),0]) rotate([0,0,180]) clip((w/4),3);
 }
 
 /* The entire assembly */
@@ -139,7 +117,6 @@ module assembly() {
     difference() {
         union() {
             y_shape();
-            // left_clip();
         }
         mount(MOUNT_THICKNESS);
     }
@@ -148,4 +125,4 @@ module assembly() {
 // Execute!
 assembly();
 // Add iPad for visualization (turn off to render)
-translate([0,0,MOUNT_THICKNESS+0.5]) #ipad(0);
+// translate([0,0,MOUNT_THICKNESS/*+0.5*/]) #ipad(0);

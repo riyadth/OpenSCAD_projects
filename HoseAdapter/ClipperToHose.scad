@@ -90,8 +90,9 @@ module interface() {
     }
     translate([-(PORT_W/2),(COLLAR_OD/2)-PORT_H,31]) nozzle(w=PORT_W, h=PORT_H);
     hull() {
-        translate([-8,(COLLAR_OD/2)-1,BUMP_CENTER]) cube([16,8,3]);
+        translate([-8,(COLLAR_OD/2)-1,BUMP_CENTER]) cube([16,6,3]);
         translate([0,(COLLAR_OD/2)-1,2]) sphere(r=1);
+        // translate([0,(COLLAR_OD/2)-1,BUMP_CENTER+8]) sphere(r=1);
     }
 }
 

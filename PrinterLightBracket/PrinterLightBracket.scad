@@ -22,6 +22,15 @@ CLIP_MAX_WIDTH=23;
 CLIP_HOLE_DIA=3.75;
 CLIP_TOP_OFFSET=((CLIP_LEN/2)-5.8-(CLIP_HOLE_DIA/2));
 
+T_GAP=3;
+T_WIDTH=4;
+T_FLANGE=10.5;
+T_TIP_WIDTH=4;
+T_TIP_DEPTH=3.75;
+
+TOP_LEN=50;
+BACK_LEN=8.5;
+THICKNESS=3;
 
 
 /* Model of the light clip */
@@ -45,13 +54,13 @@ module clip() {
 module extrusion() {
 }
 
-module t_slot(l=8.5) {
+module t_slot(l=CLIP_LEN) {
     translate([0,0,l/2]) rotate([-90,0,0]) {
-        translate([0,0,2]) hull() {
-            cube([10.5,l,1], center=true);
-            translate([0,0,2.75]) cube([4.5,l,1], center=true);
+        translate([0,0,T_GAP]) hull() {
+            cube([T_FLANGE,l,1], center=true);
+            translate([0,0,T_TIP_DEPTH-1]) cube([T_TIP_WIDTH,l,1], center=true);
         }
-        translate([0,0,1]) cube([4.5,l,2], center=true);
+        translate([0,0,(T_GAP/2)]) cube([T_WIDTH,l,T_GAP], center=true);
     }
 }
 
@@ -59,23 +68,23 @@ module rear_profile(l=CLIP_LEN) {
     // # translate([-((4.5+7+3)-(4.5/2)),-3,0])
     PROFILE_RADIUS=1.5;
     hull() {
-        translate([0,2,0]) cube([4.5+7+3,1,l]);
+        translate([0,2,0]) cube([T_WIDTH+BACK_LEN+THICKNESS,1,l]);
         linear_extrude(height=l) {
             translate([PROFILE_RADIUS,PROFILE_RADIUS]) circle(r=PROFILE_RADIUS);
-            translate([4.5+7+3-PROFILE_RADIUS,PROFILE_RADIUS]) circle(r=PROFILE_RADIUS);
+            translate([T_WIDTH+BACK_LEN+THICKNESS-PROFILE_RADIUS,PROFILE_RADIUS]) circle(r=PROFILE_RADIUS);
         }
     }
 }
 
 module top_profile(l=CLIP_LEN) {
-    cube([3,50,l]);
-    translate([1.5,50,0]) cylinder(d=3, h=l);
+    cube([THICKNESS,TOP_LEN,l]);
+    translate([THICKNESS/2,TOP_LEN,0]) cylinder(d=THICKNESS, h=l);
 }
 
 module bracket(l=CLIP_LEN) {
     t_slot(l=l);
-    translate([-((4.5+7+3)-(4.5/2)),-3,0]) rear_profile(l);
-    translate([-((4.5+7+3)-(4.5/2)),0,0]) top_profile(l);
+    translate([-((T_WIDTH+BACK_LEN+THICKNESS)-(T_WIDTH/2)),-THICKNESS,0]) rear_profile(l);
+    translate([-((T_WIDTH+BACK_LEN+THICKNESS)-(T_WIDTH/2)),0,0]) top_profile(l);
 }
 // clip();
 // linear_extrude(height=20, twist=90, slices=100)

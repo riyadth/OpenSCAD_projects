@@ -45,14 +45,38 @@ module clip() {
 module extrusion() {
 }
 
-module t_slot() {
-    translate([0,0,2]) hull() {
-        cube([10.5,8.5,1], center=true);
-        translate([0,0,2.75]) cube([4.5,8.5,1], center=true);
+module t_slot(l=8.5) {
+    translate([0,0,l/2]) rotate([-90,0,0]) {
+        translate([0,0,2]) hull() {
+            cube([10.5,l,1], center=true);
+            translate([0,0,2.75]) cube([4.5,l,1], center=true);
+        }
+        translate([0,0,1]) cube([4.5,l,2], center=true);
     }
-    translate([0,0,1]) cube([4.5,8.5,2], center=true);
 }
 
+module rear_profile(l=CLIP_LEN) {
+    // # translate([-((4.5+7+3)-(4.5/2)),-3,0])
+    PROFILE_RADIUS=1.5;
+    hull() {
+        translate([0,2,0]) cube([4.5+7+3,1,l]);
+        linear_extrude(height=l) {
+            translate([PROFILE_RADIUS,PROFILE_RADIUS]) circle(r=PROFILE_RADIUS);
+            translate([4.5+7+3-PROFILE_RADIUS,PROFILE_RADIUS]) circle(r=PROFILE_RADIUS);
+        }
+    }
+}
+
+module top_profile(l=CLIP_LEN) {
+    cube([3,50,l]);
+    translate([1.5,50,0]) cylinder(d=3, h=l);
+}
+
+module bracket(l=CLIP_LEN) {
+    t_slot(l=l);
+    translate([-((4.5+7+3)-(4.5/2)),-3,0]) rear_profile(l);
+    translate([-((4.5+7+3)-(4.5/2)),0,0]) top_profile(l);
+}
 // clip();
 // linear_extrude(height=20, twist=90, slices=100)
 /*
@@ -66,4 +90,4 @@ difference() {
 }
 */
 
-t_slot();
+bracket(2);

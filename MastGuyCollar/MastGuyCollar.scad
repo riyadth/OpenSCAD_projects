@@ -4,7 +4,8 @@
 $fn=75;
 
 // Tunable parameters
-MAST_DIAMETER=31.5;
+// MAST_DIAMETER=31.6; // 3rd section ~ 11 feet up
+MAST_DIAMETER=34.6; // 2nd section ~ 7 feet up
 NUM_GUYS=6;
 THICKNESS=10;
 

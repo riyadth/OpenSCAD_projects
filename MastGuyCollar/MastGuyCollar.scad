@@ -4,14 +4,14 @@
 $fn=75;
 
 // Tunable parameters
-// MAST_DIAMETER=31.6; // 3rd section ~ 11 feet up
-MAST_DIAMETER=34.6; // 2nd section ~ 7 feet up
+// MAST_DIAMETER=31.6; // 3rd section ~ 11 feet up - not tested
+MAST_DIAMETER=35.4; // 2nd section ~ 7 feet up - Tested
 NUM_GUYS=6;
 THICKNESS=10;
 
 // Constants
-GUY_DIAMETER=10;
-OFFSET=10;
+GUY_DIAMETER=8;
+OFFSET=8;
 CORNER_RADIUS=(GUY_DIAMETER/2)+OFFSET;
 
 module chamfered_cylinder(height, radius) {
@@ -31,7 +31,7 @@ module chamfered_hole(height, diameter) {
 }
 
 module guy_plate(num_guys, thickness, center_dia) {
-    guy_center=((center_dia+GUY_DIAMETER)/2)+(OFFSET*.5);
+    guy_center=((center_dia+GUY_DIAMETER)/2)+(OFFSET*0.8);
     difference() {
         union() {
             chamfered_cylinder(thickness, guy_center);
@@ -41,7 +41,8 @@ module guy_plate(num_guys, thickness, center_dia) {
                 }
             }
         }
-        cylinder(h=thickness, d=center_dia);
+        // Use a chamfered hole to counteract elephant's foot
+        chamfered_hole(height=thickness, diameter=center_dia);
         for (angle = [0 : 360/num_guys : 360 ]) {
             rotate([0,0,angle]) translate([guy_center,0,0]) {
                 chamfered_hole(thickness, GUY_DIAMETER);

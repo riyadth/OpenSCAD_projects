@@ -4,8 +4,15 @@
 $fn=75;
 
 // Tunable parameters
-// MAST_DIAMETER=31.6; // 3rd section ~ 11 feet up - not tested
-MAST_DIAMETER=35.4; // 2nd section ~ 7 feet up - Tested
+// MAST_DIAMETER=28.4; // 4rd section ~ 15 feet up - 27.8mm measured
+// MAST_DIAMETER=31.6; // 3rd section ~ 11 feet up - 31.7 measured
+// MAST_DIAMETER=35.4; // 2nd section ~ 7 feet up - 34.8 measured
+// Measuerd diameters of mast sections (just above the section)
+SECOND_SECTION_DIAMETER=38.4;
+THIRD_SECTION_DIAMETER=31.7;
+FOURTH_SECTION_DIAMETER=27.8;
+DIAMETER_ADJUST=0.5;
+MAST_DIAMETER=THIRD_SECTION_DIAMETER + DIAMETER_ADJUST;
 NUM_GUYS=6;
 THICKNESS=10;
 
@@ -54,5 +61,5 @@ module guy_plate(num_guys, thickness, center_dia) {
 intersection() {
     guy_plate(NUM_GUYS, THICKNESS, MAST_DIAMETER);
     // Uncomment the line below to print only mast section
-    // cylinder(h=THICKNESS, d=MAST_DIAMETER+10);
+    // cylinder(h=THICKNESS, d=MAST_DIAMETER+4);
 }

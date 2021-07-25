@@ -13,9 +13,10 @@ include <paddle.scad>;
 include <base.scad>;
 
 render_all=1;
-if (render_all) {
+if (render_all>0) {
 //intersection() {
-color([1,0,0]) base();
+color([1,1,0]) base();
+    if (render_all>1) {
 translate([0,0,thickness_bottom3]) {
   color([0,1,0]) paddle();
   translate([0,0,paddle_height]) {
@@ -24,7 +25,7 @@ translate([0,0,thickness_bottom3]) {
     }
   }
 }
-
+}
 //}
 }
 else {

@@ -19,23 +19,21 @@ module base2d(filled) {
       translate([((base_width/2)-base_radius),base_radius-base_length2])
         circle(r=base_radius);
       translate([0,-((2*base_radius)-base_length1)])
-        square([base_width,base_length1+base_length1], center=true);
+        square([base_width,base_length1+base_length2], center=true);
     };
   }
   intersection() {
     // Note that the offset() will leave a closed end on the box (which will be removed later)
     difference() {
-      base_contour_outer();
+      offset(r=outer_wall_t) base_contour_outer();
       if (!filled)
-        offset(r=-outer_wall_t)
-          base_contour_outer();
+        base_contour_outer();
     }
   }
 }
 
 // The complete base for mounting the paddles
-module base()
-{
+module base() {
   difference() {
     union() {
       // Base slab
@@ -82,8 +80,8 @@ module base()
 
     // The following are subtracted to make holes etc.
     // Cleanly chop off the end of the box
-    translate([-(base_width/2)-1,bearing_to_contact+(m3hole_r+thickness_bottom),-1])
-      cube([base_width+2,40,50]);
+    translate([-(base_width/2)-(2*outer_wall_t),bearing_to_contact+(m3hole_r+thickness_bottom),-1])
+      cube([base_width+(4*outer_wall_t),40,50]);
 
     // Chop out the area around the contact and adjustment holes
     translate([0,bearing_to_contact,(base_to_paddle+(15/2)-0.4)])

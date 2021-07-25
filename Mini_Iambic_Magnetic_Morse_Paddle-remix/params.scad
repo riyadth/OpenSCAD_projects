@@ -91,10 +91,10 @@ pos_mounting_hole1=5.5;
 pos_mounting_hole2=25.5;
 
 // Dimensions of base
-base_width=bearing_d_outer + (thickness * 2) + outer_wall_t + 2;
+base_width=bearing_d_outer + (thickness * 2) + 2;
 base_length1=bearing_to_contact + m3hole_r + thickness;
 // Add some room for wiring, maybe a strain relief
-base_length2=bearing_r_outer + thickness + outer_wall_t + 5;
+base_length2=bearing_r_outer + thickness + 1;
 base_radius=3;
 
 adjuster_height=(paddle_height / 2) + base_to_paddle;

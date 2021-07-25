@@ -5,6 +5,8 @@
  * Creative Commons - Attribution - Non-Commercial license
  */
 
+$fn=75;
+
 include <util.scad>;
 include <params.scad>;
 
@@ -12,12 +14,12 @@ complete=true;
 include <paddle.scad>;
 include <base.scad>;
 
-render_all=1;
+render_all=2;
 if (render_all>0) {
 //intersection() {
 color([1,1,0]) base();
     if (render_all>1) {
-translate([0,0,thickness_bottom3]) {
+translate([0,0,base_to_paddle]) {
   color([0,1,0]) paddle();
   translate([0,0,paddle_height]) {
     rotate([0,180,0]) {

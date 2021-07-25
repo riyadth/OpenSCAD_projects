@@ -43,6 +43,8 @@ module paddle() {
             circle(d=paddle_thickness);
           // Remaining points are from parameters for spacing
           // TODO: What is lt?
+          // TODO: Compute spacing based on bearing-to-contact length,
+          // then add fingerpiece length beyond that
           translate([(contact_spacing+paddle_thickness)/2,lt-10])
             circle(d=paddle_thickness);
           translate([(contact_spacing+paddle_thickness)/2,lt+1])

@@ -34,11 +34,11 @@ magnet_axis_dist=-15.5;
 magnet_off_axis_dist=-(magnet_r-0.7);
 
 // Basic paddle dimensions
-fingerpiece_length=25;
+fingerpiece_length=15;
 paddle_height=2*(bearing_h+t_above_bearing)+bearing_to_bearing_offset;
 // Hard code the thickness?
 paddle_thickness=max(0.4*8,thickness);
-paddle_length=56;       // TODO: Deprecate
+// paddle_length=56;       // TODO: Deprecate
 
 // Distance from the bottom edge to the bottom of the paddle
 // (ie, how far the paddles are above the table)
@@ -56,7 +56,7 @@ contact_spacing=5;
 // Distance from bearing to contact point
 // TODO: This should define the internal dimension of the paddle,
 // and the fingerpiece length should define the rest
-bearing_to_contact=31;
+bearing_to_contact=35;
 
 // Parameters - base
 thickness_bottom=0.4*6;
@@ -98,3 +98,6 @@ base_length2=bearing_r_outer + thickness + 1;
 base_radius=3;
 
 adjuster_height=(paddle_height / 2) + base_to_paddle;
+adjuster_y=m3hole_r+thickness_bottom;
+
+

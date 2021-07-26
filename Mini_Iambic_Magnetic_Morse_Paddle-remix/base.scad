@@ -72,7 +72,7 @@ module base() {
       // Side flanges for spacing adjustment
       // Make a block for the contact and spacing adjustment screws
       translate([0,bearing_to_contact,adjuster_height]) rotate([0,90,0])
-        cylinder(r=m3hole_r+thickness_bottom,h=base_width,center=true);
+        cylinder(r=adjuster_y,h=base_width,center=true);
       translate([0,bearing_to_contact,adjuster_height/2])
         cube([base_width,(m3hole_r+thickness_bottom)*2,adjuster_height],center=true);
 

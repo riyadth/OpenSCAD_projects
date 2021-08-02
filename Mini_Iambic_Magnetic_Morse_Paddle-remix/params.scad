@@ -80,25 +80,22 @@ m3hole_h=thickness_bottom3+paddle_height/2;
 // m25hole_d=1.9;
 // m25hole_r=m25hole_d/2;
 
-// pins_depth=6;
-// pins_w=12.9;
-// pins_h=2.7;
-
 // Outer wall thickness
 outer_wall_t=2;
 
 h_mounting_hole=(base_to_paddle-0.4);
-pos_mounting_hole1=5.5;
+pos_mounting_hole1=7;
 pos_mounting_hole2=25.5;
 
 // Dimensions of base
 base_width=bearing_d_outer + (thickness * 2) + 2;
 base_length1=bearing_to_contact + m3hole_r + thickness;
 // Add some room for wiring, maybe a strain relief
-base_length2=bearing_r_outer + thickness + 1;
+base_length2=bearing_r_outer + thickness + 9;
 base_radius=3;
 
 adjuster_height=(paddle_height / 2) + base_to_paddle;
 adjuster_y=m3hole_r+thickness_bottom;
 
-
+// Wire for connection
+wire_diameter=2;

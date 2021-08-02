@@ -90,12 +90,18 @@ module base() {
     // Drill a M4 hole for the bearing axis.
     cylinder(r=m4hole_r,h=100,center=true);
 
-    // Drill a M3 hole for fixing.
+    // Drill a M3 hole for fixing. With countersink.
     // Disabled for development
-    translate([0,pos_mounting_hole1,0])
+    translate([0,pos_mounting_hole1,0]) {
       cylinder(r=m3hole_r,h=100,center=true);
-    translate([0,pos_mounting_hole2,0])
+      translate([0,0,h_mounting_hole-2])
+        cylinder(r=m3hole_r*2,h=100);
+    }
+    translate([0,pos_mounting_hole2,0]) {
       cylinder(r=m3hole_r,h=100,center=true);
+      translate([0,0,h_mounting_hole-2])
+        cylinder(r=m3hole_r*2,h=100);
+    }
 
     // Drill an M3 hole for the contact pin
     translate([0,bearing_to_contact]) {
@@ -107,6 +113,13 @@ module base() {
     translate([0,bearing_to_contact,adjuster_height]) {
       rotate([0,90,0]) {
         cylinder(r=m3hole_r,h=base_width,center=true);
+      }
+    }
+
+    // Drill a hole for the wire to exit the enclosure
+    translate([0, -(base_length2+(outer_wall_t/2)), thickness_bottom+(wire_diameter/2)]) {
+      rotate([90,0,0]) {
+        cylinder(d=wire_diameter,h=(outer_wall_t*2),center=true);
       }
     }
   } // end difference()

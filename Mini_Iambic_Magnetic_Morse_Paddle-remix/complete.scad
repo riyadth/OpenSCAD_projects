@@ -14,7 +14,7 @@ complete=true;
 include <paddle-2.scad>;
 include <base.scad>;
 
-render_all=2;
+render_all=1;
 if (render_all>0) {
 //intersection() {
     color([1,1,0]) base();

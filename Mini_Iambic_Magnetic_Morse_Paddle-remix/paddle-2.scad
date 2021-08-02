@@ -45,16 +45,18 @@ module paddle() {
       linear_extrude(height=paddle_height, convexity=4) {
         // Chained hull creates hull between each two items
         chainedHull() {
-          translate([((pivot_radius-(contact_spacing/2)) + contact_spacing)/2,
+          // First two points should be dimensioned so they leave
+          // magnet_spacing distance between the arms
+          translate([((pivot_radius-(magnet_spacing/2)) + magnet_spacing)/2,
               0]) {
-            circle(d=(pivot_radius-(contact_spacing/2)));
+            circle(d=(pivot_radius-(magnet_spacing/2)));
           }
-          translate([((pivot_radius-(contact_spacing/2)) + contact_spacing)/2,
-              bearing_to_contact - (adjuster_y / 2) - 5]) {
-            circle(d=(pivot_radius-(contact_spacing/2)));
+          translate([((pivot_radius-(magnet_spacing/2)) + magnet_spacing)/2,
+              bearing_to_contact - (adjuster_y / 2) - 7]) {
+            circle(d=(pivot_radius-(magnet_spacing/2)));
           }
           translate([(contact_spacing+paddle_thickness)/2,
-              bearing_to_contact - (adjuster_y / 2) - 2]) {
+              bearing_to_contact - (adjuster_y / 2) - 3]) {
             circle(d=paddle_thickness);
           }
           translate([(contact_spacing+paddle_thickness)/2,
@@ -91,7 +93,7 @@ module paddle() {
     for (m=[14:magnet_d+0.2:28]) {
       translate([0,m,paddle_height/2]) {
         rotate([0,90,0])
-        cylinder(r=magnet_r,h=(contact_spacing/2)+magnet_h,center=false);
+        cylinder(r=magnet_r,h=(magnet_spacing/2)+magnet_h,center=false);
       }
     }
 

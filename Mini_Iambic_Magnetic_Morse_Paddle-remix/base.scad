@@ -47,8 +47,8 @@ module base() {
       }
 
       // Center raised bar for rigidity?
-      *translate([-m4hole_r-thickness_bottom,0,0]) {
-        cube([m4hole_d+2*thickness_bottom,lt,5]);
+      translate([-m4hole_r-thickness,0,0]) {
+        cube([m4hole_d+2*thickness,bearing_to_contact,h_mounting_hole]);
       }
 
       // Standoff for the bearings axis.
@@ -56,7 +56,7 @@ module base() {
 
       // Standoff for the mounting hole
       // Disabled for development
-      *for (offset=[[0,pos_mounting_hole1-4],[0,pos_mounting_hole2]]) {
+      for (offset=[[0,pos_mounting_hole1-4],[0,pos_mounting_hole2]]) {
         hull() {
           translate(offset)
           multicone([
@@ -84,7 +84,7 @@ module base() {
       cube([base_width+(4*outer_wall_t),40,50]);
 
     // Chop out the area around the contact and adjustment holes
-    translate([0,bearing_to_contact,(base_to_paddle+(15/2)-0.4)])
+    translate([0,bearing_to_contact,(h_mounting_hole+(15/2))])
       cube([(2 * paddle_thickness)+contact_spacing,(m3hole_r+thickness_bottom)*2+1,15],center=true);
 
     // Drill a M4 hole for the bearing axis.
@@ -92,9 +92,9 @@ module base() {
 
     // Drill a M3 hole for fixing.
     // Disabled for development
-    *translate([0,pos_mounting_hole1,0])
+    translate([0,pos_mounting_hole1,0])
       cylinder(r=m3hole_r,h=100,center=true);
-    *translate([0,pos_mounting_hole2,0])
+    translate([0,pos_mounting_hole2,0])
       cylinder(r=m3hole_r,h=100,center=true);
 
     // Drill an M3 hole for the contact pin

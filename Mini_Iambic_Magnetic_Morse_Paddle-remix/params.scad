@@ -30,14 +30,18 @@ magnet_d=5+dmr_correction;
 magnet_r=magnet_d/2;
 magnet_h=1.8+0.1;
 
-magnet_axis_dist=-15.5;
-magnet_off_axis_dist=-(magnet_r-0.7);
+// Distance between magnets
+magnet_spacing=3;
+
+// magnet_axis_dist=-15.5;
+// magnet_off_axis_dist=-(magnet_r-0.7);
 
 // Basic paddle dimensions
 fingerpiece_length=15;
 paddle_height=2*(bearing_h+t_above_bearing)+bearing_to_bearing_offset;
 // Hard code the thickness?
-paddle_thickness=max(0.4*8,thickness);
+// paddle_thickness=max(0.4*8,thickness);
+paddle_thickness=3.2;
 // paddle_length=56;       // TODO: Deprecate
 
 // Distance from the bottom edge to the bottom of the paddle
@@ -80,13 +84,10 @@ m3hole_h=thickness_bottom3+paddle_height/2;
 // pins_w=12.9;
 // pins_h=2.7;
 
-lt=35;
-// lb=6+pins_depth;
-// w0=12;
-// w1=w0+2*m3hole_l;
-outer_wall_t=0.37*4;
+// Outer wall thickness
+outer_wall_t=2;
 
-h_mounting_hole=thickness_bottom2;
+h_mounting_hole=(base_to_paddle-0.4);
 pos_mounting_hole1=5.5;
 pos_mounting_hole2=25.5;
 

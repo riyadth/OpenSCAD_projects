@@ -46,7 +46,13 @@ module base() {
         base2d(false);
       }
 
-      // Center raised bar for rigidity?
+      // TODO:
+      // Separator for wiring area - add some holes for wire to go through?
+      *translate([-((base_width+outer_wall_t)/2), -(bearing_r_outer+thickness+2), 0]) {
+        cube([base_width+outer_wall_t,1,paddle_height+base_to_paddle]);
+      }
+
+      // Center raised bar for rigidity
       translate([-m4hole_r-thickness,0,0]) {
         cube([m4hole_d+2*thickness,bearing_to_contact,h_mounting_hole]);
       }

@@ -4,7 +4,7 @@
 $fn=75;
 
 gap=0.2;
-pipe_id=38.2;
+pipe_id=38.4;
 pipe_od=42;
 bottom_thickness=1.5;
 wall_height=8;

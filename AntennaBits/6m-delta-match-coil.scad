@@ -3,16 +3,18 @@
  */
 $fn=75;
 
-pipe_id=38;
+gap=0.2;
+pipe_id=38.2;
 pipe_od=42;
-bottom_thickness=2;
+bottom_thickness=1.5;
 wall_height=8;
 wall_thickness=3;
 screw_dia=3;
-so239_side=25.2;
-so239_conn=15.5;
-so239_hole=3.5;
-so239_spacing=21.3-3.5;
+so239_side=25.5+gap;
+so239_conn=16+gap;
+so239_hole=4+gap;
+so239_plate=2;
+so239_spacing=21.5-so239_hole;
 // 28.8-3.5
 
 // Model of the SO-239 connector
@@ -62,12 +64,12 @@ module so239_mount() {
 difference() {
   union() {
     // The "plug" shape to fit in the pipe
-    cylinder(d=pipe_od, h=bottom_thickness);
+    cylinder(d=pipe_od, h=bottom_thickness+so239_plate);
     cylinder(d=pipe_id, h=wall_height);
   }
 
   // Connector sits 1mm above the bottom
-  translate([0,0,1]) so239_mount();
+  translate([0,0,bottom_thickness]) so239_mount();
 
   // Add horizontal mounting holes to screw in to pipe
   translate([0,0,(wall_height/2)+1]) rotate([90,0,0]) cylinder(d=screw_dia,h=pipe_od,center=true);

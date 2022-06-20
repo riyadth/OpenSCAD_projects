@@ -10,10 +10,12 @@
 $fn=75;
 
 // Configurable parameters
-finger_d=20;
+finger_d=15;
+finger_hole=7;
 winder_length=200;
-winder_width=120;
-winder_thickness=7;
+winder_width=100;
+winder_height=10;
+winder_thickness=4;
 notch_length=120;
 
 // Compute parameters to make the shape
@@ -28,10 +30,15 @@ saddle_y=0;
 
 // A single "finger" of the winder
 module finger(x, y) {
-  hull() {
-    circle(d=finger_d);
-    translate([x,y]) {
+  difference() {
+    hull() {
       circle(d=finger_d);
+      translate([x,y]) {
+        circle(d=finger_d);
+      }
+    }
+    translate([x,y]) {
+      circle(d=finger_hole);
     }
   }
 }
@@ -46,12 +53,10 @@ module v_fill() {
       circle(r=saddle_r);
     }
   }
-  echo("saddle_r = ", saddle_r);
 }
 
 // One side of the 2d shape
-module right_side()
-{
+module right_side() {
   union() {
     finger(half_l, half_w);
     finger(half_l, -half_w);
@@ -59,14 +64,25 @@ module right_side()
   }
 }
 
+// Combine both halves into a single 2d shape
+module full_shape() {
+  union() {
+    right_side();
+    mirror([1,0,0]) right_side();
+  }
+}
+
 // The 3d shape made from two mirrored halves
 module antenna_winder(thickness) {
-  linear_extrude(height=thickness) {
-    union() {
-      right_side();
-      mirror([1,0,0]) right_side();
+  difference() {
+    linear_extrude(height=thickness) {
+      full_shape();
+    }
+    // Subtract out a smaller version to produce a 3d effect
+    translate([0,0,winder_thickness]) linear_extrude(height=thickness) {
+      offset(r=-winder_thickness) full_shape();
     }
   }
 }
 
-antenna_winder(winder_thickness);
+antenna_winder(winder_height);

@@ -12,20 +12,23 @@ $fn=75;
 // Configurable parameters
 finger_d=15;
 finger_hole=7;
+finger_len=0;
 winder_length=200;
 winder_width=100;
 winder_height=10;
 winder_thickness=4;
-notch_length=120;
 
 // Compute parameters to make the shape
 finger_r=finger_d/2;
 half_l=(winder_length-finger_d)/2;
 half_w=(winder_width-finger_d)/2;
 winder_angle=atan(half_w/half_l);
-saddle_r=(finger_r - ((notch_length/2) * sin(winder_angle))) /
-         (sin(winder_angle) - 1);
-saddle_x=(notch_length/2) + saddle_r;
+finger_end_x=(half_l + (finger_r * sin(winder_angle)));
+saddle_chord_x=(finger_end_x - (finger_len * cos(winder_angle)));
+v_point_x=(finger_r / sin(winder_angle));
+saddle_chord_y=((saddle_chord_x - v_point_x) * tan(winder_angle));
+saddle_r=(saddle_chord_y / cos(winder_angle));
+saddle_x=(saddle_chord_y * tan(winder_angle)) + saddle_chord_x;
 saddle_y=0;
 
 // A single "finger" of the winder
@@ -45,7 +48,7 @@ module finger(x, y) {
 
 // The curved fill in the V notch, along with the top and bottom edges
 module v_fill() {
-  x_pos=(notch_length/2)+saddle_r-(saddle_r*sin(winder_angle));
+  x_pos=saddle_chord_x;
   y_pos=(saddle_r * cos(winder_angle));
   difference() {
     polygon(points=[[0,y_pos], [x_pos,y_pos], [x_pos,-y_pos], [0,-y_pos]]);
@@ -90,5 +93,6 @@ module antenna_winder_for_pdf() {
     full_shape();
   }
 }
-// antenna_winder(winder_height);
-antenna_winder_for_pdf(); // Rotated for printing on 2d printer
+
+antenna_winder(winder_height);
+// antenna_winder_for_pdf(); // Rotated for printing on 2d printer

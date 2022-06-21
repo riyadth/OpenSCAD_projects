@@ -76,18 +76,22 @@ module full_shape() {
   }
 }
 
+module antenna_winder_solid(thickness) {
+  linear_extrude(height=thickness) {
+    difference() {
+      full_shape();
+      // Remove an oval in the center
+      scale([(saddle_x-saddle_r),saddle_chord_y]) {
+        circle(d=1.3);    // "Scaling factor" for oval
+      }
+    }
+  }
+}
+
 // The 3d shape made from two mirrored halves
 module antenna_winder(thickness) {
   difference() {
-    linear_extrude(height=thickness) {
-      difference() {
-        full_shape();
-        // Remove an oval in the center
-        scale([(saddle_x-saddle_r),saddle_chord_y]) {
-          circle(d=1.3);    // "Scaling factor" for oval
-        }
-      }
-    }
+    antenna_winder_solid(thickness);
     // Subtract out a smaller version to produce a 3d effect
     translate([0,0,winder_thickness]) linear_extrude(height=thickness) {
       offset(r=-edge_thickness) full_shape();
@@ -101,5 +105,6 @@ module antenna_winder_for_pdf() {
   }
 }
 
-antenna_winder(winder_height);
+antenna_winder_solid(winder_height);
+// antenna_winder(winder_height);
 // antenna_winder_for_pdf(); // Rotated for printing on 2d printer

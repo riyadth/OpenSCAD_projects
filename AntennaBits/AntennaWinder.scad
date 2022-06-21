@@ -20,8 +20,8 @@ notch_length=120;
 
 // Compute parameters to make the shape
 finger_r=finger_d/2;
-half_l=(winder_length/2)-finger_d;
-half_w=(winder_width/2)-finger_d;
+half_l=(winder_length-finger_d)/2;
+half_w=(winder_width-finger_d)/2;
 winder_angle=atan(half_w/half_l);
 saddle_r=(finger_r - ((notch_length/2) * sin(winder_angle))) /
          (sin(winder_angle) - 1);
@@ -85,4 +85,10 @@ module antenna_winder(thickness) {
   }
 }
 
-antenna_winder(winder_height);
+module antenna_winder_for_pdf() {
+  rotate([0,0,90]) {
+    full_shape();
+  }
+}
+// antenna_winder(winder_height);
+antenna_winder_for_pdf(); // Rotated for printing on 2d printer

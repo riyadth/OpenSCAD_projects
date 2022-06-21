@@ -13,10 +13,11 @@ $fn=75;
 finger_d=15;
 finger_hole=7;
 finger_len=0;
-winder_length=200;
-winder_width=100;
-winder_height=10;
-winder_thickness=4;
+winder_length=190;
+winder_width=90;
+winder_height=7;
+winder_thickness=2;
+edge_thickness=5;
 
 // Compute parameters to make the shape
 finger_r=finger_d/2;
@@ -49,7 +50,7 @@ module finger(x, y) {
 // The curved fill in the V notch, along with the top and bottom edges
 module v_fill() {
   x_pos=saddle_chord_x;
-  y_pos=(saddle_r * cos(winder_angle));
+  y_pos=saddle_chord_y;
   difference() {
     polygon(points=[[0,y_pos], [x_pos,y_pos], [x_pos,-y_pos], [0,-y_pos]]);
     translate([saddle_x, saddle_y]) {
@@ -79,11 +80,17 @@ module full_shape() {
 module antenna_winder(thickness) {
   difference() {
     linear_extrude(height=thickness) {
-      full_shape();
+      difference() {
+        full_shape();
+        // Remove an oval in the center
+        scale([(saddle_x-saddle_r),saddle_chord_y]) {
+          circle(d=1.3);    // "Scaling factor" for oval
+        }
+      }
     }
     // Subtract out a smaller version to produce a 3d effect
     translate([0,0,winder_thickness]) linear_extrude(height=thickness) {
-      offset(r=-winder_thickness) full_shape();
+      offset(r=-edge_thickness) full_shape();
     }
   }
 }

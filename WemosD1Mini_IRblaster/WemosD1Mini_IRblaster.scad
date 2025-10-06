@@ -68,7 +68,7 @@ STANDOFF_H=4;
 BOARD_W=26;
 BOARD_L=34;
 BOARD_H=19;
-FRAME_THICKNESS=1;
+FRAME_THICKNESS=1.4;
 BASE_H=3;
 BASE_DIA=55;
 COVER_T=2;
@@ -110,11 +110,11 @@ module base() {
         // USB port
         translate([-USB_W/2,-(BOARD_L/2 + FRAME_THICKNESS+1),BASE_H]) cube([USB_W,FRAME_THICKNESS*2,USB_H]);
         // Screw holes
-        translate([SCREW_OFFSET,0,-1]) cylinder(h=BASE_H+2,d=SCREW_D+1);
-        translate([-SCREW_OFFSET,0,-1]) cylinder(h=BASE_H+2,d=SCREW_D+1);
+        translate([SCREW_OFFSET,0,0]) cylinder(h=BASE_H,d1=SCREW_D+2*BASE_H,d2=SCREW_D+0.5);
+        translate([-SCREW_OFFSET,0,0]) cylinder(h=BASE_H,d1=SCREW_D+2*BASE_H,d2=SCREW_D+0.5);
     }
     
-    #translate([0,0,BASE_H+STANDOFF_H+1]) WemosD1M(pins=0, atorg=0);
+    //#translate([0,0,BASE_H+STANDOFF_H+1]) WemosD1M(pins=0, atorg=0);
 }
 
 
@@ -127,10 +127,10 @@ module top() {
             cylinder(h=4,d1=BASE_DIA-8, d2=BASE_DIA);
             translate([0,0,4]) cylinder(h=BOARD_H+COVER_T-4, d=BASE_DIA);
         }
-        translate([0,0,COVER_T+1]) frame(FRAME_THICKNESS+0.5);
+        translate([0,0,COVER_T+1]) frame(FRAME_THICKNESS+0.75);
         translate([0,0,-1]) cylinder(h=COVER_T+3, d=IR_LED_D);
         // USB port
-        translate([-USB_W/2,-(BOARD_L/2 + FRAME_THICKNESS*6),BOARD_H+COVER_T-USB_H]) cube([USB_W,FRAME_THICKNESS*5,USB_H]);
+        translate([-USB_W/2,-BOARD_L,BOARD_H+COVER_T-USB_H]) cube([USB_W,BOARD_L,USB_H]);
         // Screw holes
         translate([SCREW_OFFSET,0,5]) cylinder(h=BOARD_H+COVER_T,d=SCREW_D);
         translate([-SCREW_OFFSET,0,5]) cylinder(h=BOARD_H+COVER_T,d=SCREW_D);
